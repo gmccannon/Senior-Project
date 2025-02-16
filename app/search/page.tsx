@@ -20,7 +20,7 @@ const Home = () => {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.header}>My Search Engine</h1>
+      <h1 className={styles.header}>Nudle</h1>
       <div className={styles.searchBar}>
         <SearchBar onSearch={handleSearch} />
       </div>

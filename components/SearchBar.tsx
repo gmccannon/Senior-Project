@@ -19,8 +19,9 @@ const SearchBar: React.FC<{ onSearch: (query: string) => void }> = ({ onSearch }
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search..."
                 required
+                className="flex-grow p-2 border border-gray-300 rounded-l-md"
             />
-            <button type="submit">Search</button>
+            <button type="submit" className="p-2 bg-blue-500 text-white rounded-r-md ml-2">Search</button>
         </form>
     );
 };
