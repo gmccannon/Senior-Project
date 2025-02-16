@@ -14,7 +14,8 @@ const Home = () => {
 
   const handleSearch = async (query: string): Promise<void> => {
     try {
-      const response = await fetch(`/api/search?query=${query}`);
+    //   const response = await fetch(`/api/search?query=${query}`);
+      const response = await fetch(`/api/SearchGoogle?query=${query}`);
       const data: { results: SearchResult[] } = await response.json();
       console.log('Search results:', data.results);
       setResults(data.results);
