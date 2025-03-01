@@ -62,5 +62,5 @@ def crawl(start_url, max_pages=10):
 
 if __name__ == "__main__":
     init_db()
-    start_url = "https://example.com"  # Change this to your starting URL
+    start_url = "https://www.wikipedia.org/"
     crawl(start_url)
