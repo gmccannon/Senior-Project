@@ -18,10 +18,8 @@ const MainSearchBar: React.FC<MainSearchBarProps> = ({ onSearch }) => {
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Search..."
-          className="flex-grow p-2 border border-gray-300 rounded-l-md text-black placeholder-gray-500"
+          className="flex-grow p-2 border border-gray-300 rounded-md text-black placeholder-gray-500"
         />
-        <button type="submit">Search</button>
       </form>
     );
   };

@@ -63,7 +63,7 @@ const Home = () => {
             ) : (
                 <div className="flex flex-col items-center justify-center min-h-screen">
                     <div className="w-full max-w-xl">
-                        <p className="flex flex-col items-center justify-center">Nudle</p>
+                        <p className="flex text-7xl flex-col items-center justify-center">Nudle</p>
                         <MainSearchBar onSearch={handleSearch} />
                     </div>
                 </div>
