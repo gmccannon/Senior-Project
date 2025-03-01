@@ -51,13 +51,14 @@ const Search = () => {
             style={{ fontFamily: "Pacifico, cursive" }}
             className="text-4xl text-white pl-4 cursor-pointer"
           >
-            Presto
+            Nudde
           </p>
           <div className="flex-grow max-w-xl pl-8">
             <MainSearchBar onSearch={handleSearch} />
           </div>
         </div>
 
+        {/* TODO: Add pagination */}
         {/* Search Results */}
         <div className="mt-8 pl-20">
           {loading && <p className="text-white">Loading results...</p>}
