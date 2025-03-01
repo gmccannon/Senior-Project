@@ -52,7 +52,7 @@ const Home = () => {
         if (searchTerm) {
             handleSearch(searchTerm);
         }
-    }, [searchTerm]);
+    }, [searchTerm, handleSearch]);
 
     return (
         <div className="bg-neutral-900">
