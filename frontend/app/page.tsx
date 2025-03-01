@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import MainSearchBar from "@/components/MainSearchBar";
@@ -28,7 +28,7 @@ const Home = () => {
         // Fetch search results
         try {
             const response = await fetch(
-                `/api/SearchGoogle?query=${encodeURIComponent(query)}`,
+                `/api/MockSearch?query=${encodeURIComponent(query)}`,
             );
             if (!response.ok) throw new Error("Failed to fetch search results");
 
@@ -52,13 +52,12 @@ const Home = () => {
         if (searchTerm) {
             handleSearch(searchTerm);
         }
-    }, [searchTerm, handleSearch]);
+    }, [searchTerm]);
 
     return (
         <div className="bg-neutral-900">
             {results.length > 0 ? (
                 // Search results present: show the bar top left
-                <Suspense fallback={<div>Loading...</div>}>
                 <div className="p-6">
                     <div className="flex items-center">
                         <p
@@ -86,7 +85,6 @@ const Home = () => {
                         ))}
                     </div>
                 </div>
-                </Suspense>
             ) : (
                 // Empty search results: show the bar in the center
                 <div className="flex flex-col items-center justify-start min-h-screen pt-64">
