@@ -21,7 +21,7 @@ const Home = () => {
             style={{ fontFamily: "Pacifico, cursive" }}
             className="flex text-8xl flex-col items-center justify-center p-8 cursor-pointer"
         >
-            Presto
+            Nuddle
         </p>
         <MainSearchBar onSearch={handleSearch} />
         </div>
