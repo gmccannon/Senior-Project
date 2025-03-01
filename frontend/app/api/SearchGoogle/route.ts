@@ -3,6 +3,12 @@ import { NextResponse } from "next/server";
 const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY;
 const SEARCH_ENGINE_ID = process.env.SEARCH_ENGINE_ID;
 
+interface SearchResult {
+  title: string;
+  snippet: string;
+  link: string;
+}
+
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const query = searchParams.get("query");
@@ -23,7 +29,7 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: data.error.message }, { status: data.error.code });
     }
 
-    const searchResults = data.items.map((item: any) => ({
+    const searchResults = data.items.map((item: SearchResult) => ({
       title: item.title,
       description: item.snippet,
       link: item.link,

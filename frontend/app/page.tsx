@@ -28,7 +28,7 @@ const Home = () => {
         // Fetch search results
         try {
             const response = await fetch(
-                `/api/SearchGoogle?query=${encodeURIComponent(query)}`,
+                `/api/MockSearch?query=${encodeURIComponent(query)}`,
             );
             if (!response.ok) throw new Error("Failed to fetch search results");
 
