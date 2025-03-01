@@ -1,64 +1,46 @@
 import { NextResponse } from "next/server";
 
 const MOCK_RESULTS = [
-  {
-    title: "Example result 1",
-    snippet: "This is a snippet for the first example result.",
-    link: "https://example1.com",
-  },
-  {
-    title: "Example result 2",
-    snippet: "This is a snippet for the second example result.",
-    link: "https://example2.com",
-  },
-  {
-    title: "Example result 3",
-    snippet: "This is a snippet for the third example result.",
-    link: "https://example3.com",
-  },
-  {
-    title: "Example result 4",
-    snippet: "This is a snippet for the first example result.",
-    link: "https://example1.com",
-  },
-  {
-    title: "Example result 5",
-    snippet: "This is a snippet for the second example result.",
-    link: "https://example2.com",
-  },
-  {
-    title: "Example result 6",
-    snippet: "This is a snippet for the third example result.",
-    link: "https://example3.com",
-  },
+  { title: "Example 1", snippet: "Snippet 1", link: "https://example1.com" },
+  { title: "Example 2", snippet: "Snippet 2", link: "https://example2.com" },
+  { title: "Example 3", snippet: "Snippet 3", link: "https://example3.com" },
+  { title: "Example 4", snippet: "Snippet 4", link: "https://example4.com" },
+  { title: "Example 5", snippet: "Snippet 5", link: "https://example5.com" },
+  { title: "Example 6", snippet: "Snippet 6", link: "https://example6.com" },
 ];
 
-interface SearchResult {
-  title: string;
-  snippet: string;
-  link: string;
-}
+const MOCK_RESULTS_2 = [
+  { title: "Example 7", snippet: "Snippet 1", link: "https://example1.com" },
+  { title: "Example 8", snippet: "Snippet 2", link: "https://example2.com" },
+  { title: "Example 9", snippet: "Snippet 3", link: "https://example3.com" },
+  { title: "Example 10", snippet: "Snippet 4", link: "https://example4.com" },
+  { title: "Example 11", snippet: "Snippet 5", link: "https://example5.com" },
+  { title: "Example 12", snippet: "Snippet 6", link: "https://example6.com" },
+];
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const query = searchParams.get("query");
 
-  console.log("Received query:", query);
+  if (!query) return NextResponse.json({ error: "Query required" }, { status: 400 });
 
-  if (!query) {
-    return NextResponse.json({ error: "Query parameter is required" }, { status: 400 });
-  }
+  await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate delay
 
-  // Simulate a delay for mock results
-  await new Promise((resolve) => setTimeout(resolve, 500));
-
-  // Return mock search results
-  const searchResults = MOCK_RESULTS.map((item: SearchResult) => ({
-    title: item.title,
-    description: item.snippet,
-    link: item.link,
-  }));
-
-  console.log("Mock search results:", searchResults);
-  return NextResponse.json({ results: searchResults }, { status: 200 });
+  if (query == "h") {
+    return NextResponse.json({
+      results: MOCK_RESULTS.map(({ title, snippet, link }) => ({
+        title,
+        description: snippet,
+        link,
+      })),
+    });
+  } else {
+    return NextResponse.json({
+      results: MOCK_RESULTS_2.map(({ title, snippet, link }) => ({
+        title,
+        description: snippet,
+        link,
+      })),
+    });
+  }  
 }
