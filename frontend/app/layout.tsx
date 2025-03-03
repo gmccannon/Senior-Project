@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Presto",
-  description: "Presto Search Engine",
+  title: "Nuddle",
+  description: "Nuddle Search Engine",
 };
 
 export default function RootLayout({
