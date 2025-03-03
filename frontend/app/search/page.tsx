@@ -69,11 +69,10 @@ const Search = () => {
 
           {!loading && results.map((result, index) => (
             <div key={index} className="mb-6">
-              <Link href={result.link} className="text-xl text-blue-500 hover:underline">
-                {result.title}
+              <Link href={result.url} className="text-xl text-blue-500 hover:underline">
+                {result.url}
               </Link>
-              <p className="text-sm text-gray-400">{result.link}</p>
-              <p className="text-white">{result.description}</p>
+
             </div>
           ))}
         </div>

@@ -1,30 +1,43 @@
 import { NextResponse } from "next/server";
 import sqlite3 from "sqlite3";
+import path from "path";
+import fs from "fs";
+import { SearchResult } from "@/app/utils/getSearchResults";
 
-// Open database (this link will change when the database is deployed)
-const db = new sqlite3.Database("database/web_crawler.db");
+// Determine the correct database path
+let dbPath = path.join(process.cwd(), "database", "commoncrawl.db");
+
+// Move to /tmp/
+if (process.env.VERCEL) {
+  const tmpDbPath = "/tmp/commoncrawl.db";
+  if (!fs.existsSync(tmpDbPath)) {
+    fs.copyFileSync(dbPath, tmpDbPath);
+  }
+  dbPath = tmpDbPath;
+}
 
 // Helper function to query the database
-const queryDb = (query: string): Promise<{ title: string; snippet: string; link: string }[]> => {
-    return new Promise((resolve, reject) => {
-      db.all(
-        "SELECT title, url AS link, snippet FROM crawled_pages WHERE link LIKE ? OR title LIKE ? OR snippet LIKE ?",
-        [`%${query}%`, `%${query}%`, `%${query}%`],  
-        (err: any, rows: any) => {
-          if (err) {
-            reject(err);
-          } else {
-            console.log("Query Result:", rows);
-            resolve(rows);
-          }
+const queryDb = (query: string): Promise<SearchResult[]> => {
+  return new Promise((resolve, reject) => {
+    const db = new sqlite3.Database(dbPath);
+    db.all(
+      "SELECT url, content FROM webpages WHERE url LIKE ? LIMIT 20",
+      [`%${query}%`],
+      (err, rows) => {
+        db.close();
+        if (err) {
+          console.error("Database query error:", err);
+          reject(err);
+        } else {
+          resolve(rows as SearchResult[]);
         }
-      );
-    });
-  };
-  
+      }
+    );
+  });
+};
 
 // API handler function
-export async function GET(req: any) {
+export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const query = searchParams.get("query");
 
@@ -33,20 +46,15 @@ export async function GET(req: any) {
   }
 
   try {
-    const results: { title: string; snippet: string; link: string }[] = await queryDb(query);
-
+    const results = await queryDb(query);
     if (results.length === 0) {
       return NextResponse.json({ message: "No results found" }, { status: 404 });
     }
 
-    return NextResponse.json({
-      results: results.map(({ title, snippet, link }) => ({
-        title,
-        description: snippet,
-        link,
-      })),
-    });
+    return NextResponse.json({ results });
   } catch (error) {
-    return NextResponse.json({ error: "Error querying database" }, { status: 500 });
+    console.error("API error:", error);
+    const errorMessage = error instanceof Error ? error.message : "Error querying database";
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }
