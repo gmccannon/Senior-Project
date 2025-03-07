@@ -1,6 +1,7 @@
 export interface SearchResult {
-  url: string;
-  content: string;
+  title: string;
+  snippet: string;
+  link: string;
 }
 
 // Prefix to differentiate from other localStorage items
@@ -44,7 +45,7 @@ export const getSearchResults = async (query: string): Promise<SearchResult[]> =
 
   // Fetch information from the custom database
   try {
-    const response = await fetch(`/api/DatabaseSearch?query=${encodeURIComponent(query)}`);
+    const response = await fetch(`/api/SearchGoogle?query=${encodeURIComponent(query)}`);
     if (!response.ok) {
       console.log(response.statusText);
       return [];

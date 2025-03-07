@@ -21,8 +21,8 @@ const queryDb = (query: string): Promise<SearchResult[]> => {
   return new Promise((resolve, reject) => {
     const db = new sqlite3.Database(dbPath);
     db.all(
-      "SELECT url, content FROM webpages WHERE url LIKE ? LIMIT 20",
-      [`%${query}%`],
+      "SELECT url as link, content as snippet FROM webpages WHERE link LIKE ? OR snippet LIKE ? LIMIT 20",
+      [`%${query}%`, `%${query}%`],
       (err, rows) => {
         db.close();
         if (err) {

@@ -51,7 +51,7 @@ const Search = () => {
             style={{ fontFamily: "Pacifico, cursive" }}
             className="text-4xl text-white pl-4 cursor-pointer"
           >
-            Nudde
+            Nuddle
           </p>
           <div className="flex-grow max-w-xl pl-8">
             <MainSearchBar onSearch={handleSearch} />
@@ -64,15 +64,16 @@ const Search = () => {
           {loading && <p className="text-white">Loading results...</p>}
           {error && <p className="text-red-500">{error}</p>}
           {!loading && !error && results.length === 0 && searchTerm && (
-            <p className="text-gray-400">No results found.</p>
+            <p className="text-gray-400">No results found for search "{searchTerm}"</p>
           )}
 
           {!loading && results.map((result, index) => (
             <div key={index} className="mb-6">
-              <Link href={result.url} className="text-xl text-blue-500 hover:underline">
-                {result.url}
+              <Link href={result.link} className="text-xl text-blue-500 hover:underline">
+                {result.link}
               </Link>
-
+              <p className="text-white">{result.title}</p>
+              <p className="text-gray-400">{result.snippet && result.snippet.slice(0,100)}</p>
             </div>
           ))}
         </div>
