@@ -3,11 +3,7 @@ import { NextResponse } from "next/server";
 const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY;
 const SEARCH_ENGINE_ID = process.env.SEARCH_ENGINE_ID;
 
-interface SearchResult {
-  title: string;
-  snippet: string;
-  link: string;
-}
+import { SearchResult } from "@/app/utils/getSearchResults";
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
