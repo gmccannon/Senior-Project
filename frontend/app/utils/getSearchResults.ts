@@ -1,51 +1,33 @@
+import { openDB } from "idb";
+
 export interface SearchResult {
   title: string;
   snippet: string;
   link: string;
 }
 
-// Prefix to differentiate from other localStorage items
-const CACHE_KEY_PREFIX = "search_cache_";
-const CACHE_LIMIT = 10;
+const DB_NAME = "SearchCacheDB";
+const STORE_NAME = "search_results";
 
-const safeSetItem = (key: string, value: string) => {
-  try {
-    localStorage.setItem(key, value);
-  } catch (e) {
-    console.warn("LocalStorage quota exceeded. Clearing old cache...");
-    pruneCache();
-    try {
-      localStorage.setItem(key, value); 
-    } catch (error) {
-      console.error("Failed to store in cache after pruning:", error);
-    }
-  }
-};
+const dbPromise = openDB(DB_NAME, 1, {
+  upgrade(db) {
+    db.createObjectStore(STORE_NAME);
+  },
+});
 
- // Remove the oldest cached query if the limit is reached
-const pruneCache = () => {
-  const keys = Object.keys(localStorage).filter(key => key.startsWith(CACHE_KEY_PREFIX));
-  if (keys.length > CACHE_LIMIT) {
-    localStorage.removeItem(keys[0]);
-  }
-};
-
-// Fetch search results
-export const getSearchResults = async (query: string): Promise<SearchResult[]> => {
+export const getSearchResults = async (query: string) => {
   if (!query) return [];
 
-  const cacheKey = CACHE_KEY_PREFIX + query;
-  const cachedResults = localStorage.getItem(cacheKey);
-
-  // If results are cached, return them
+  // Try fetching from cache first
+  const db = await dbPromise;
+  const cachedResults = await db.get(STORE_NAME, query);
   if (cachedResults) {
     console.log("Returning cached results for:", query);
-    return JSON.parse(cachedResults);
+    return cachedResults;
   }
 
-  // Fetch information from the custom database
   try {
-    const response = await fetch(`/api/SearchGoogle?query=${encodeURIComponent(query)}`);
+    const response = await fetch(`/api/DatabaseSearch?query=${encodeURIComponent(query)}`);
     if (!response.ok) {
       console.log(response.statusText);
       return [];
@@ -53,8 +35,8 @@ export const getSearchResults = async (query: string): Promise<SearchResult[]> =
 
     const data: { results: SearchResult[] } = await response.json();
 
-    // Cache results safely
-    safeSetItem(cacheKey, JSON.stringify(data.results));
+    // Store in IndexedDB
+    await db.put(STORE_NAME, data.results, query);
 
     return data.results;
   } catch (error) {
@@ -62,3 +44,4 @@ export const getSearchResults = async (query: string): Promise<SearchResult[]> =
     return [];
   }
 };
+
