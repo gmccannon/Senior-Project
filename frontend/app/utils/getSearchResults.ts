@@ -26,8 +26,9 @@ export const getSearchResults = async (query: string) => {
     return cachedResults;
   }
 
+  // Fetch data from the API
   try {
-    const response = await fetch(`/api/DatabaseSearch?query=${encodeURIComponent(query)}`);
+    const response = await fetch(`/api/SearchDatabase?query=${encodeURIComponent(query)}`);
     if (!response.ok) {
       console.log(response.statusText);
       return [];
@@ -35,7 +36,7 @@ export const getSearchResults = async (query: string) => {
 
     const data: { results: SearchResult[] } = await response.json();
 
-    // Store in IndexedDB
+    // Store in chache
     await db.put(STORE_NAME, data.results, query);
 
     return data.results;
