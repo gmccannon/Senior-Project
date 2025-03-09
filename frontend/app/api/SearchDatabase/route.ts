@@ -37,7 +37,7 @@ const queryDb = (query: string): Promise<SearchResult[]> => {
 };
 
 // API handler function
-export async function GET(req: Request) {
+export async function GET(req: Request): Promise<NextResponse> {
   const { searchParams } = new URL(req.url);
   const query = searchParams.get("query");
 

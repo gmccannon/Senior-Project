@@ -42,7 +42,7 @@ const NewsPage = () => {
           {newsLoading && <p className="text-white">Loading articles...</p>}
           {error && <p className="text-red-500">{error}</p>}
           {!newsLoading && !error && newsResults.length === 0 && searchTerm && (
-            <p className="text-gray-400">No results found for search "{searchTerm}"</p>
+            <p className="text-gray-400">No results found for search &quot;{searchTerm}&quot;</p>
           )}
           {!newsLoading && newsResults.map((result, index) => (
               <div key={index} className="flex items-center space-x-4 mb-6" onClick={() => setNewsAIsummary(result.summary)}>                  

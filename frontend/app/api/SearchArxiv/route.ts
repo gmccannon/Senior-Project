@@ -8,7 +8,7 @@ interface ArxivEntry {
   link: { $: { href: string } }[];
 }
 
-export async function GET(req: NextRequest) {
+export async function GET(req: NextRequest): Promise<NextResponse> {
   const { searchParams } = new URL(req.url);
   const query = searchParams.get("query");
 
@@ -28,7 +28,7 @@ export async function GET(req: NextRequest) {
 
     // Check for valid data
     if (!parsedData.feed || !parsedData.feed.entry) {
-        return [];
+      return NextResponse.json({ error: "No data found" }, { status: 400 });
     }
 
     // Extract articles from the parsed JSON and map to ArxivArticle structure
