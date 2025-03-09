@@ -23,6 +23,11 @@ export default function OverLayout({
   };
 
   // Navigate to search page
+  const handleWebSearchClick = () => {
+    router.push('/websearch' + (searchTerm ? `?query=${encodeURIComponent(searchTerm)}` : ''));
+  }
+
+  // Navigate to search page
   const handleSearchClick = () => {
     router.push('/search' + (searchTerm ? `?query=${encodeURIComponent(searchTerm)}` : ''));
   }
@@ -66,8 +71,11 @@ export default function OverLayout({
 
         {/* Navigation buttons */}
         <div className="flex gap-4 pl-20 pb-5">
-          <button className="text-white" onClick={handleSearchClick}>
+          <button className="text-white" onClick={handleWebSearchClick}>
             Web
+          </button>
+          <button className="text-white" onClick={handleSearchClick}>
+            Nudle::Database
           </button>
           <button className="text-white" onClick={handleArticlesClick}>
             Papers
