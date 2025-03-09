@@ -22,7 +22,7 @@ export default function OverLayout({
     router.push("/");
   };
 
-  // Navigate to search page
+  // Navigate to google search page
   const handleWebSearchClick = () => {
     router.push('/websearch' + (searchTerm ? `?query=${encodeURIComponent(searchTerm)}` : ''));
   }
