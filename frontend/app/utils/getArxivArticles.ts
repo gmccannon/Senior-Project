@@ -1,11 +1,10 @@
 import { openDB } from "idb";
-import { parseStringPromise } from 'xml2js';
 
 // Define the interface for the ArXiv article data
 export interface ArxivArticle {
     title: string;
     summary: string;
-    link: string;
+    siteLink: string;
 }
 
 // cache parameters
@@ -19,7 +18,7 @@ const dbPromise = openDB(DB_NAME, 1, {
 });
 
 // Define the function that fetches and parses articles from ArXiv
-export const getArxivArticles = async (query: string): Promise<ArxivArticle[]> => {
+export const getArxivArticles = async (query: string) => {
     if (!query) return [];
 
     // Try fetching from cache first
@@ -32,30 +31,18 @@ export const getArxivArticles = async (query: string): Promise<ArxivArticle[]> =
     
     // Fetch data from the API
     try {
-        const arxivUrl = `http://export.arxiv.org/api/query?search_query=all:${query}&start=0&max_results=10`;
-    
-        // Fetch data from ArXiv API
-        const response = await fetch(arxivUrl);
-        const data = await response.text();
-    
-        // Parse the XML data to JSON
-        const parsedData = await parseStringPromise(data);
-
-        if (!parsedData.feed || !parsedData.feed.entry) {
-            return [];
+        const response = await fetch(`/api/SearchArxiv?query=${encodeURIComponent(query)}`);
+        if (!response.ok) {
+          console.log(response.statusText);
+          return [];
         }
 
-        // Extract articles from the parsed JSON and map to ArxivArticle structure
-        const articles = parsedData.feed.entry.map((entry: any) => ({
-            title: entry.title[0],
-            summary: entry.summary[0],
-            link: entry.id[0],
-        }));
+        const data: { results: ArxivArticle[] } = await response.json();
 
         // Store in chache
-        await db.put(STORE_NAME, articles, query);
+        await db.put(STORE_NAME, data.results, query);
 
-        return articles;
+        return data.results;
     } catch (error) {
         console.error("Error fetching from ArXiv API:", error);
         return [];

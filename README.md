@@ -55,6 +55,7 @@ To get a local copy up and running, follow these steps:
 - React
 - Tailwind CSS
 - Google Search API
+- Arxiv API
 - Meilisearch
 - Docker
 
