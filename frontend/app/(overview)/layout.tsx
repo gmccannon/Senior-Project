@@ -17,17 +17,17 @@ export default function OverLayout({
 
   const router = useRouter();
 
-  // Naviagte to the home page when the logo is clicked
+  // Naviagte to home page
   const handleHomeClick = () => {
     router.push("/");
   };
 
-  // Navigate to the search page
+  // Navigate to search page
   const handleSearchClick = () => {
     router.push('/search' + (searchTerm ? `?query=${encodeURIComponent(searchTerm)}` : ''));
   }
 
-  // Navigate to the articles page
+  // Navigate to articles page
   const handleArticlesClick = () => {
     router.push('/articles' + (searchTerm ? `?query=${encodeURIComponent(searchTerm)}` : ''));
   }
@@ -39,7 +39,7 @@ export default function OverLayout({
   }, [router]);
     
   return (
-    <>
+    <div>
         {/* Logo and Search Bar */}
         <div className="flex items-center p-6">
           <p
@@ -67,6 +67,6 @@ export default function OverLayout({
         <hr className="border-gray-600" />
         
         {children}
-    </>
+    </div>
   );
 }
