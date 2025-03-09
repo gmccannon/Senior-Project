@@ -54,7 +54,7 @@ const Search = () => {
         {searchLoading && <p className="text-white">Loading results...</p>}
         {error && <p className="text-red-500">{error}</p>}
         {!searchLoading && !error && searchResults.length === 0 && searchTerm && (
-          <p className="text-gray-400">No results found for search "{searchTerm}"</p>
+          <p className="text-gray-400">No results found for search &quot;{searchTerm}&quot;</p>
         )}
 
         {/* TODO: Add pagination */}

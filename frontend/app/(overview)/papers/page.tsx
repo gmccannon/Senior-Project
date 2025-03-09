@@ -42,7 +42,7 @@ const Articles = () => {
             {articlesLoading && <p className="text-white">Loading articles...</p>}
             {error && <p className="text-red-500">{error}</p>}
             {!articlesLoading && !error && articleResults.length === 0 && searchTerm && (
-            <p className="text-gray-400">No results found for search "{searchTerm}"</p>
+            <p className="text-gray-400">No results found for search &quot;{searchTerm}&quot;</p>
             )}
             {!articlesLoading && articleResults.map((result, index) => (
                 <div key={index} className="mb-6" onClick={() => setArticleAIsummary(result.summary)}>
