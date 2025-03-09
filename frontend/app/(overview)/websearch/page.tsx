@@ -1,19 +1,10 @@
-/*
-Same thing as search but uses google instead...
-*/
-
 "use client";
 
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
+import { getGoogleSearch, SearchResult } from "@/app/utils/getGoogleSearch";
 import { getAISummary, AISummary } from "@/app/utils/getAISummary";
-
-interface SearchResult {
-  title: string;
-  snippet: string;
-  link: string;
-}
 
 const Search = () => {
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
@@ -23,20 +14,9 @@ const Search = () => {
   const [AILoading, setAILoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   
-  // Get the search term from the URL
+  // Get the seach term from the URL
   const searchParams = useSearchParams();
   const searchTerm = searchParams.get("query") || "";
-
-  async function getOnlineSearchResults(query: string): Promise<SearchResult[]> {
-    const response = await fetch(`/api/SearchGoogle?query=${query}`);
-    const data = await response.json();
-
-    if (data.error) {
-      throw new Error(data.error);
-    }
-
-    return data.results;
-  }
 
   // On page load, fetch search results using the search term in the URL
   useEffect(() => {
@@ -45,7 +25,7 @@ const Search = () => {
     setError(null);
   
     // Fetch search results independently
-    getOnlineSearchResults(searchTerm)
+    getGoogleSearch(searchTerm)
       .then((data) => {
         setSearchResults(data);
         setSearchLoading(false);
@@ -94,9 +74,9 @@ const Search = () => {
       <div className=" border-l border-gray-700 pl-6">
         <h2 className="text-xl font-semibold text-white">AI Assistant</h2>
         {AILoading ? (
-          <p className="text-gray-400">Generating AI summary...</p>
+          <p className="text-gray-600">Generating AI summary...</p>
         ) : (
-          <p className="text-white">{AISummary?.summary}</p>
+          <p className="text-gray-400">{AISummary?.summary}</p>
         )}
       </div>
     </div>
