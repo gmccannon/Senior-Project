@@ -71,11 +71,11 @@ export default function OverLayout({
 
         {/* Navigation buttons */}
         <div className="flex gap-4 pl-20 pb-5">
+          <button className="text-white" onClick={handleSearchClick}>
+            Nudle
+          </button>
           <button className="text-white" onClick={handleWebSearchClick}>
             Web
-          </button>
-          <button className="text-white" onClick={handleSearchClick}>
-            Nudle::Database
           </button>
           <button className="text-white" onClick={handleArticlesClick}>
             Papers
