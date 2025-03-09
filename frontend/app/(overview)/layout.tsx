@@ -29,7 +29,17 @@ export default function OverLayout({
 
   // Navigate to articles page
   const handleArticlesClick = () => {
-    router.push('/articles' + (searchTerm ? `?query=${encodeURIComponent(searchTerm)}` : ''));
+    router.push('/papers' + (searchTerm ? `?query=${encodeURIComponent(searchTerm)}` : ''));
+  }
+
+  // Navigate to news page
+  const handleNewsClick = () => {
+    router.push('/news' + (searchTerm ? `?query=${encodeURIComponent(searchTerm)}` : ''));
+  }
+
+      // Navigate to finance page
+  const handleFinanceClick = () => {
+    router.push('/finance' + (searchTerm ? `?query=${encodeURIComponent(searchTerm)}` : ''));
   }
 
   // Update the search term in the URL when the user searches
@@ -57,10 +67,16 @@ export default function OverLayout({
         {/* Navigation buttons */}
         <div className="flex gap-4 pl-20 pb-5">
           <button className="text-white" onClick={handleSearchClick}>
-            Search
+            Web
           </button>
           <button className="text-white" onClick={handleArticlesClick}>
-            Articles
+            Papers
+          </button>
+          <button className="text-white" onClick={handleNewsClick}>
+            News
+          </button>
+          <button className="text-white" onClick={handleFinanceClick}>
+            Finance
           </button>
         </div>
 

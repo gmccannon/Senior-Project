@@ -18,6 +18,7 @@ const Articles = () => {
 
     // On page load, fetch search results using the search term in the URL
     useEffect(() => {
+        setArticleAIsummary("Click an article to get a summary");
         setArticlesLoading(true);
         setError(null);
         
