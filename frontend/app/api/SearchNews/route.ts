@@ -10,7 +10,7 @@ export interface NewsAPIItem {
     publishedAt: string;
 }
 
-export async function GET(req: NextRequest) {
+export async function GET(req: NextRequest): Promise<NextResponse> {
     const { searchParams } = new URL(req.url);
     const query = searchParams.get("query");
 
