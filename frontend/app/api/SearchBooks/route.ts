@@ -17,7 +17,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
   }
 
   try {
-    const booksUrl = `https://openlibrary.org/search.json?q=${query}`;
+    const booksUrl = `https://openlibrary.org/search.json?q=${query}&limit=1000&`;
     const response = await fetch(booksUrl);
     const data = await response.json();
 
