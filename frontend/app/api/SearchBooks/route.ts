@@ -1,4 +1,5 @@
 import { NextResponse, NextRequest } from "next/server";
+import { Book } from "@/app/utils/getBooks";
 
 interface BookEntryFromAPI {
   title: string;
@@ -26,7 +27,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
     }
 
     // Build the results
-    const booksResults = data.docs
+    const booksResults: Book = data.docs
     .filter((item: BookEntryFromAPI) => item.title && item.author_name && item.cover_edition_key)
     .map((item: BookEntryFromAPI) => ({
         title: item.title,

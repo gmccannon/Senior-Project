@@ -16,7 +16,7 @@ const dbPromise = openDB(DB_NAME, 1, {
   },
 });
 
-export const getNews = async (query: string): Promise<Book[]> => {
+export const getBooks = async (query: string): Promise<Book[]> => {
     if (!query) return [];
 
     // Try fetching from cache first
