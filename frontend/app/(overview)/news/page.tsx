@@ -45,7 +45,7 @@ const NewsPage = () => {
             <p className="text-gray-400">No results found for search &quot;{searchTerm}&quot;</p>
           )}
           {!newsLoading && newsResults.map((result, index) => (
-              <div key={index} className="flex items-center space-x-4 mb-6" onClick={() => setNewsAIsummary(result.summary)}>                  
+              <div key={index} className="flex justify-between space-x-4 mb-12" onClick={() => setNewsAIsummary(result.summary)}>                  
                   <div className="p-3">
                       <Link href={result.link} className="text-xl text-blue-500 hover:underline break-all">
                           {result.title}

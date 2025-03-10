@@ -15,7 +15,7 @@ const dbPromise = openDB(DB_NAME, 1, {
   },
 });
 
-export const getSearchResults = async (query: string) => {
+export const getSearchResults = async (query: string): Promise<SearchResult[]> => {
   if (!query) return [];
 
   // Try fetching from cache first

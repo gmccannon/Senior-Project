@@ -1,15 +1,14 @@
 import { openDB } from "idb";
 
-// Define the interface for the ArXiv article data
-export interface ArxivArticle {
+export interface Book {
     title: string;
-    summary: string;
-    siteLink: string;
+    author: string;
+    year: string;
+    coverLink: string;
 }
 
-// cache parameters
-const DB_NAME = "ArticlesCacheDB";
-const STORE_NAME = "article_results";
+const DB_NAME = "BookCacheDB";
+const STORE_NAME = "books_results";
 
 const dbPromise = openDB(DB_NAME, 1, {
   upgrade(db) {
@@ -17,8 +16,7 @@ const dbPromise = openDB(DB_NAME, 1, {
   },
 });
 
-// Define the function that fetches and parses articles from ArXiv
-export const getArxivArticles = async (query: string): Promise<ArxivArticle[]> => {
+export const getBooks = async (query: string): Promise<Book[]> => {
     if (!query) return [];
 
     // Try fetching from cache first
@@ -28,23 +26,23 @@ export const getArxivArticles = async (query: string): Promise<ArxivArticle[]> =
         console.log("Returning cached results for:", query);
         return cachedResults;
     }
-    
+
     // Fetch data from the API
     try {
-        const response = await fetch(`/api/SearchArxiv?query=${encodeURIComponent(query)}`);
+        const response = await fetch(`/api/SearchBooks?query=${encodeURIComponent(query)}`);
         if (!response.ok) {
-          console.log(response.statusText);
-          return [];
+            console.log(response.statusText);
+            return [];
         }
 
-        const data: { results: ArxivArticle[] } = await response.json();
+        const data: { results: Book[] } = await response.json();
 
         // Store in chache
         await db.put(STORE_NAME, data.results, query);
 
         return data.results;
     } catch (error) {
-        console.error("Error fetching from ArXiv API:", error);
+        console.error("Error fetching search results:", error);
         return [];
     }
 }

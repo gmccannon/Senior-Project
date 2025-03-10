@@ -42,7 +42,12 @@ export default function OverLayout({
     router.push('/news' + (searchTerm ? `?query=${encodeURIComponent(searchTerm)}` : ''));
   }
 
-      // Navigate to finance page
+  // Navigate to finance page
+  const handleBooksClick = () => {
+    router.push('/books' + (searchTerm ? `?query=${encodeURIComponent(searchTerm)}` : ''));
+  }
+
+  // Navigate to finance page
   const handleFinanceClick = () => {
     router.push('/finance' + (searchTerm ? `?query=${encodeURIComponent(searchTerm)}` : ''));
   }
@@ -72,7 +77,7 @@ export default function OverLayout({
         {/* Navigation buttons */}
         <div className="flex gap-4 pl-20 pb-5">
           <button className="text-white" onClick={handleSearchClick}>
-            Nudle
+            Nuddle
           </button>
           <button className="text-white" onClick={handleWebSearchClick}>
             Web
@@ -82,6 +87,9 @@ export default function OverLayout({
           </button>
           <button className="text-white" onClick={handleNewsClick}>
             News
+          </button>
+          <button className="text-white" onClick={handleBooksClick}>
+            Books
           </button>
           <button className="text-white" onClick={handleFinanceClick}>
             Finance
