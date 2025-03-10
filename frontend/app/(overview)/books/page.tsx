@@ -35,7 +35,7 @@ const booksPage = () => {
   }, [searchTerm]);
 
   return (
-    <div className="bg-neutral-900 min-h-screen mt-4 pl-20 flex gap-10">
+    <div className="bg-neutral-900 min-h-screen mt-4 pl-48 flex gap-10">
       {/* Left Column - Search Results */}
       {/* TODO: Add pagination */}
       <div className="w-1/2">
@@ -45,22 +45,22 @@ const booksPage = () => {
             <p className="text-gray-400">No results found for search &quot;{searchTerm}&quot;</p>
           )}
           {!booksLoading && booksResults.map((result, index) => (
-              <div key={index} className="flex items-center space-x-4 mb-6" onClick={() => setbooksAIsummary(result.summary)}>                  
-                    <div className="p-3">
+              <div key={index} className="flex space-x-4 mb-16" onClick={() => setbooksAIsummary(result.title)}>     
+                    {/* Thumbnail image */}
+                    {result.coverLink && (
+                        <img
+                            src={`https://covers.openlibrary.org/b/olid/${result.coverLink}-L.jpg`} 
+                            alt={`cover loading...`} 
+                            className="w-48 h-64 object-cover rounded-md align-right"
+                        />
+                    )}             
+                    <div className="p-3 align-top">
                             <p>{result.title}</p>
                             <p className="text-white">{result.author}</p>
-                            <Link href = {`https://www.amazon.com/s?k=${result.coverLink}`}>
+                            <Link href = {`https://www.amazon.com/s?k=${result.title}`}>
                                 Buy on Amazon
                             </Link>
                     </div>
-                    {/* Thumbnail image */}
-                    {result.coverLink && (
-                        <img 
-                            src={`https://covers.openlibrary.org/b/olid/${result.coverLink}-L.jpg`} 
-                            alt={result.title} 
-                            className="w-48 h-64 object-cover rounded-md"
-                        />
-                    )}
               </div>
           ))}
       </div>

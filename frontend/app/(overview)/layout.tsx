@@ -77,7 +77,7 @@ export default function OverLayout({
         {/* Navigation buttons */}
         <div className="flex gap-4 pl-20 pb-5">
           <button className="text-white" onClick={handleSearchClick}>
-            Nudle
+            Nuddle
           </button>
           <button className="text-white" onClick={handleWebSearchClick}>
             Web
