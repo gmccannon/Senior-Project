@@ -42,7 +42,12 @@ export default function OverLayout({
     router.push('/news' + (searchTerm ? `?query=${encodeURIComponent(searchTerm)}` : ''));
   }
 
-      // Navigate to finance page
+  // Navigate to finance page
+  const handleBooksClick = () => {
+    router.push('/books' + (searchTerm ? `?query=${encodeURIComponent(searchTerm)}` : ''));
+  }
+
+  // Navigate to finance page
   const handleFinanceClick = () => {
     router.push('/finance' + (searchTerm ? `?query=${encodeURIComponent(searchTerm)}` : ''));
   }
@@ -82,6 +87,9 @@ export default function OverLayout({
           </button>
           <button className="text-white" onClick={handleNewsClick}>
             News
+          </button>
+          <button className="text-white" onClick={handleBooksClick}>
+            Books
           </button>
           <button className="text-white" onClick={handleFinanceClick}>
             Finance

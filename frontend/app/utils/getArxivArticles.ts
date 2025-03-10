@@ -18,7 +18,7 @@ const dbPromise = openDB(DB_NAME, 1, {
 });
 
 // Define the function that fetches and parses articles from ArXiv
-export const getArxivArticles = async (query: string) => {
+export const getArxivArticles = async (query: string): Promise<ArxivArticle[]> => {
     if (!query) return [];
 
     // Try fetching from cache first
