@@ -1,12 +1,35 @@
+import Groq from "groq-sdk";
+
 export interface AISummary {
-    summary: string;
+  summary: string;
 }
+
+// Check if the environment variable is set
+const apiKey = process.env.NEXT_PUBLIC_GROQ_API_KEY;
+
+if (!apiKey) {
+  throw new Error("The NEXT_PUBLIC_GROQ_API_KEY environment variable is missing or empty.");
+}
+
+const groq = new Groq({ apiKey: apiKey, dangerouslyAllowBrowser: true });
 
 export const getAISummary = async (search: string): Promise<AISummary> => {
-    // wait for 3 second to simulate delay
-    await new Promise((resolve) => setTimeout(resolve, 3000));
 
-    // return a default summary for now
-    // TODO: Use an AI model to generate summary
-    return { summary: "Example summary for " + search.slice(0,20)};
-}
+  const response = await groq.chat.completions.create({
+    messages: [
+      {
+        role: "system",
+        content: "You are a helpful assistant. Provide a concise summary of the following content term.",
+      },
+      {
+        role: "user",
+        content: search,
+      },
+    ],
+    model: "llama-3.1-8b-instant",
+  });
+
+  const summary = response.choices[0]?.message?.content || "No summary available.";
+
+  return { summary };
+};
