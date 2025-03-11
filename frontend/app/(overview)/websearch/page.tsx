@@ -9,6 +9,7 @@ import { Smokum } from "next/font/google";
 
 const Search = () => {
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+  const [googleHitsHovered, setGoogleHitsHovered] = useState<SearchResult | null>(null);
   const [AISummary, setAISummary] = useState<AISummary>();
 
   const [searchLoading, setSearchLoading] = useState(false);
@@ -22,7 +23,6 @@ const Search = () => {
   // On page load, fetch search results using the search term in the URL
   useEffect(() => {
     setSearchLoading(true);
-    setAILoading(true);
     setError(null);
   
     // Fetch search results independently
@@ -35,21 +35,32 @@ const Search = () => {
         setError("Failed to fetch search results");
         setSearchLoading(false);
       });
-  
-    // Fetch AI summary independently
-    getAISummary(searchTerm)
-      .then((summary) => {
-        setAISummary(summary);
-        setAILoading(false);
-      })
-      .catch(() => {
-        setError("Failed to fetch AI summary");
-        setAILoading(false);
-      });
   }, [searchTerm]);
+
+  // Fetch AI summary whenever googleHitsHovered changes
+  useEffect(() => {
+    if (googleHitsHovered) {
+      setAILoading(true);
+      setError(null);
+
+      const hoveredResultString = `${googleHitsHovered.title} - ${googleHitsHovered.snippet}`;
+
+
+      getAISummary(hoveredResultString)
+        .then((summary) => {
+          setAISummary(summary);
+          setAILoading(false);
+        })
+        .catch(() => {
+          setError("Failed to fetch AI summary");
+          setAILoading(false);
+        });
+    }
+  }, [googleHitsHovered]);
 
   const handleMouseHover = (result: SearchResult) => {
     console.log("Hovered over:", result);
+    setGoogleHitsHovered(result);
   };
 
   return (
