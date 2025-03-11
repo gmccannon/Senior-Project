@@ -15,7 +15,7 @@ const Search = () => {
   const [AILoading, setAILoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   
-  // Get the seach term from the URL
+  // Get the search term from the URL
   const searchParams = useSearchParams();
   const searchTerm = searchParams.get("query") || "";
 
@@ -48,6 +48,10 @@ const Search = () => {
       });
   }, [searchTerm]);
 
+  const handleMouseHover = (result: SearchResult) => {
+    console.log("Hovered over:", result);
+  };
+
   return (
     <div className="bg-neutral-900 min-h-screen mt-4 pl-20 flex gap-10">
       {/* Left Column - Search Results */}
@@ -61,9 +65,13 @@ const Search = () => {
         {/* TODO: Add pagination */}
         {!searchLoading &&
           searchResults.map((result, index) => (
-            <div key={index} className="mb-6">
+            <div
+              key={index}
+              className="mb-6"
+              onMouseEnter={() => handleMouseHover(result)}
+            >
               <Link href={result.link} className="text-xl text-blue-500 hover:underline break-all">
-                {result.link.slice(0,50)}
+                {result.link.slice(0, 50)}
               </Link>
               <p className="text-white">{result.title}</p>
               <p className="text-gray-400">{result.snippet?.slice(0, 100)}</p>
