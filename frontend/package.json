@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
+    "groq-sdk": "^0.15.0",
     "idb": "^8.0.2",
     "next": "15.1.7",
     "node-fetch": "^3.3.2",
