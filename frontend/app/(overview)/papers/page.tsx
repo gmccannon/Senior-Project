@@ -45,11 +45,16 @@ const Articles = () => {
             <p className="text-gray-400">No results found for search &quot;{searchTerm}&quot;</p>
             )}
             {!articlesLoading && articleResults.map((result, index) => (
-                <div key={index} className="mb-6" onClick={() => setArticleAIsummary(result.summary)}>
-                <Link href={result.siteLink.replace(".org/abs/", ".org/pdf/")} className="text-xl text-blue-500 hover:underline break-all">
-                    {result.siteLink.replace(".org/abs/", ".org/pdf/")}
-                </Link>
-                <p className="text-white">{result.title}</p>
+                <div key={index} className="flex flex-col mb-6" onClick={() => setArticleAIsummary(result.summary)}>
+                    <Link href={`/papers?query=${result.title}`} className="text-xl pb-1">
+                        {result.title}
+                    </Link>
+                    <Link href={`/papers?query=${result.author}`} className="text-m pb-1">
+                        {result.author}
+                    </Link>
+                    <Link href={result.siteLink} className="text-xl text-blue-500 hover:underline break-all pb-1">
+                        {result.siteLink}
+                    </Link>
                 </div>
             ))}
         </div>

@@ -3,6 +3,7 @@ import { openDB } from "idb";
 // Define the interface for the ArXiv article data
 export interface ArxivArticle {
     title: string;
+    author: string;
     summary: string;
     siteLink: string;
 }

@@ -5,6 +5,7 @@ import { parseStringPromise } from 'xml2js';
 interface ArxivEntry {
   title: string[];
   summary: string[];
+  author: { name: string[] }[];
   link: { $: { href: string } }[];
 }
 
@@ -34,8 +35,9 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
     // Extract articles from the parsed JSON and map to ArxivArticle structure
     const articles: ArxivArticle = parsedData.feed.entry.map((entry: ArxivEntry) => ({
         title: entry.title[0],
+        author: entry.author[0]['name'][0],
         summary: entry.summary[0],
-        siteLink: entry.link[0].$.href,
+        siteLink: entry.link[0].$.href.replace("arxiv.org/abs/", "arxiv.org/pdf/"),
     }));
 
     return NextResponse.json({ results: articles }, {status: 200});
