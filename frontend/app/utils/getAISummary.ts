@@ -19,7 +19,7 @@ export const getAISummary = async (search: string): Promise<AISummary> => {
     messages: [
       {
         role: "system",
-        content: "You are a helpful assistant. Provide a concise summary of the following search term.",
+        content: "You are a helpful assistant. Provide a concise summary of the following content term.",
       },
       {
         role: "user",

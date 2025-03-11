@@ -43,8 +43,9 @@ const Search = () => {
       setAILoading(true);
       setError(null);
 
-      const hoveredResultString = `${googleHitsHovered.title} - ${googleHitsHovered.snippet}`;
-
+      // I think since this is from Google API, the description is a property of the object?
+      const hoveredResultString = `${googleHitsHovered.title} - ${googleHitsHovered.description}`;
+      console.log("Fetching AI summary for:", hoveredResultString);
 
       getAISummary(hoveredResultString)
         .then((summary) => {
