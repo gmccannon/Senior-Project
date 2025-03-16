@@ -56,7 +56,7 @@ const NewsPage = () => {
                   {result.imageLink && (
                       <img 
                           src={result.imageLink} 
-                          alt={result.title} 
+                          alt={result.title.slice(0, 20)} 
                           className="w-24 h-24 object-cover rounded-md"
                       />
                   )}

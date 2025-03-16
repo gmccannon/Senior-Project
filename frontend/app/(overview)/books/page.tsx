@@ -82,7 +82,7 @@ const booksPage = () => {
                 </Link>
                 <Link
                   className="pb-1 text-blue-400"
-                  href={`https://www.amazon.com/s?k=${result.title}`}
+                  href={`https://www.amazon.com/s?k=${result.title} book`}
                 >
                   Buy on Amazon
                 </Link>
@@ -92,7 +92,7 @@ const booksPage = () => {
       </div>
 
       {/* Right Column - Article Summary */}
-      <div className=" border-l border-gray-700 pl-6 w-1/2">
+      <div className="border-l border-gray-700 pl-6 w-1/2">
         <h2 className="text-xl font-semibold text-white">AI Assistant</h2>
         <p className="text-gray-400">{booksAIsummary}</p>
       </div>

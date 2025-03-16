@@ -5,7 +5,6 @@ import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { getGoogleSearch, SearchResult } from "@/app/utils/getGoogleSearch";
 import { getAISummary, AISummary } from "@/app/utils/getAISummary";
-import { Smokum } from "next/font/google";
 
 const Search = () => {
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
