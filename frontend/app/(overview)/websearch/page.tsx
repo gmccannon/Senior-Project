@@ -91,7 +91,7 @@ const Search = () => {
       </div>
 
       {/* Right Column - AI Summary */}
-      <div className="w-1/2 border-l border-gray-700 pl-6">
+      <div className="w-1/2 border-l border-gray-700 pl-6 sticky top-16">
         <h2 className="text-xl font-semibold text-white">AI Assistant</h2>
         {AILoading ? (
           <p className="text-gray-600">Generating AI summary...</p>
