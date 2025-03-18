@@ -35,10 +35,10 @@ const Articles = () => {
             });
     }, [searchTerm]);
 
-      const handleMouseHover = async (content: string) => {
-        console.log("Hovered over:", content);
-        setArticleAIsummary(await getAISummary(content.slice(0, 100)));
-      };
+    const handleMouseHover = async (content: string) => {
+    console.log("Hovered over:", content);
+    setArticleAIsummary(await getAISummary(content.slice(0, 100)));
+    };
     
 
   return (
