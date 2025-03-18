@@ -9,7 +9,7 @@ import { getAISummary, AISummary } from "@/app/utils/getAISummary";
 const Search = () => {
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [googleHitsHovered, setGoogleHitsHovered] = useState<SearchResult | null>(null);
-  const [AISummary, setAISummary] = useState<AISummary>();
+  const [AISummary, setAISummary] = useState<AISummary>({summary: "Hover over a site to get a summary"});
 
   const [searchLoading, setSearchLoading] = useState(false);
   const [AILoading, setAILoading] = useState(false);
