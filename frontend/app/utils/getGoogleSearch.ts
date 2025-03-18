@@ -4,6 +4,7 @@ export interface SearchResult {
   title: string;
   snippet: string;
   link: string;
+  description?: string;
 }
 
 const DB_NAME = "GoogleSearchCacheDB";

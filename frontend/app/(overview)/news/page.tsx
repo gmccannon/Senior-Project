@@ -5,10 +5,11 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { getNews, News } from '@/app/utils/getNews';
 import Link from 'next/link';
+import { AISummary, getAISummary } from '@/app/utils/getAISummary';
 
 const NewsPage = () => {
   const [newsResults, setNewsResults] = useState<News[]>([]);
-  const [newsAIsummary, setNewsAIsummary] = useState<string>("Click a news story to get a summary");
+  const [newsAIsummary, setNewsAIsummary] = useState<AISummary>({summary : "Hover over an article to get a summary"});
   const [newsLoading, setNewsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -18,7 +19,7 @@ const NewsPage = () => {
 
   // On page load, fetch search news using the search term in the URL
   useEffect(() => {
-    setNewsAIsummary("Click a news story to get a summary");
+    setNewsAIsummary({summary : "Hover over an article to get a summary"});
     setNewsLoading(true);
     setError(null);
     
@@ -34,6 +35,11 @@ const NewsPage = () => {
         });
   }, [searchTerm]);
 
+  const handleMouseHover = async (content: string) => {
+  console.log("Hovered over:", content);
+  setNewsAIsummary(await getAISummary(content.slice(0, 200)));
+  };
+
   return (
     <div className="bg-neutral-900 min-h-screen mt-4 pl-20 flex gap-10">
       {/* Left Column - Search Results */}
@@ -45,7 +51,7 @@ const NewsPage = () => {
             <p className="text-gray-400">No results found for search &quot;{searchTerm}&quot;</p>
           )}
           {!newsLoading && newsResults.map((result, index) => (
-              <div key={index} className="flex justify-between space-x-4 mb-12" onClick={() => setNewsAIsummary(result.summary)}>                  
+              <div key={index} className="flex justify-between space-x-4 mb-12" onMouseEnter={() => handleMouseHover(result.summary)}>                  
                   <div className="p-3">
                       <Link href={result.link} className="text-xl text-blue-500 hover:underline break-all">
                           {result.title}
@@ -56,7 +62,7 @@ const NewsPage = () => {
                   {result.imageLink && (
                       <img 
                           src={result.imageLink} 
-                          alt={result.title} 
+                          alt={result.title.slice(0, 20)} 
                           className="w-24 h-24 object-cover rounded-md"
                       />
                   )}
@@ -67,7 +73,7 @@ const NewsPage = () => {
       {/* Right Column - Article Summary */}
       <div className=" border-l border-gray-700 pl-6 w-1/2">
           <h2 className="text-xl font-semibold text-white">AI Assistant</h2>
-          <p className="text-gray-400">{newsAIsummary}</p>
+          <p className="text-gray-400">{newsAIsummary.summary}</p>
       </div>
     </div>
   )

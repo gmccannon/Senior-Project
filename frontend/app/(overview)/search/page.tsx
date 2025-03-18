@@ -47,6 +47,11 @@ const Search = () => {
       });
   }, [searchTerm]);
 
+  const handleMouseHover = async (result: SearchResult) => {
+    console.log("Hovered over:", result);
+    setAISummary(await getAISummary(result.snippet.slice(0, 100)));
+  };
+
   return (
     <div className="bg-neutral-900 min-h-screen mt-4 pl-20 flex gap-10">
       {/* Left Column - Search Results */}
@@ -61,7 +66,7 @@ const Search = () => {
         {!searchLoading &&
           searchResults.map((result, index) => (
             <div key={index} className="mb-6">
-              <Link href={result.link} className="text-xl text-blue-500 hover:underline break-all">
+              <Link href={result.link} className="text-xl text-blue-500 hover:underline break-all" onMouseEnter={() => handleMouseHover(result)}>
                 {result.link.slice(0,50)}
               </Link>
               <p className="text-white">{result.title}</p>
@@ -71,13 +76,15 @@ const Search = () => {
       </div>
 
       {/* Right Column - AI Summary */}
-      <div className=" border-l border-gray-700 pl-6">
-        <h2 className="text-xl font-semibold text-white">AI Assistant</h2>
-        {AILoading ? (
-          <p className="text-gray-600">Generating AI summary...</p>
-        ) : (
-          <p className="text-gray-400">{AISummary?.summary}</p>
-        )}
+      <div className=" w-1/2 border-l border-gray-700 pl-6">
+        <div className="sticky top-16">
+          <h2 className="text-xl font-semibold text-white">AI Assistant</h2>
+          {AILoading ? (
+            <p className="text-gray-600">Generating AI summary...</p>
+          ) : (
+            <p className="text-gray-400">{AISummary?.summary}</p>
+          )}
+        </div>
       </div>
     </div>
   );

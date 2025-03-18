@@ -5,10 +5,11 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { getArxivArticles, ArxivArticle } from '@/app/utils/getArxivArticles';
 import Link from 'next/link';
+import { getAISummary, AISummary } from '@/app/utils/getAISummary';
 
 const Articles = () => {
     const [articleResults, setArticleResults] = useState<ArxivArticle[]>([]);
-    const [articleAIsummary, setArticleAIsummary] = useState<string>("Click an article to get a summary");
+    const [articleAIsummary, setArticleAIsummary] = useState<AISummary>({summary : "Hover over an article to get a summary"});
     const [articlesLoading, setArticlesLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -18,7 +19,7 @@ const Articles = () => {
 
     // On page load, fetch search results using the search term in the URL
     useEffect(() => {
-        setArticleAIsummary("Click an article to get a summary");
+        setArticleAIsummary({summary : "Hover over an article to get a summary"});
         setArticlesLoading(true);
         setError(null);
         
@@ -34,6 +35,12 @@ const Articles = () => {
             });
     }, [searchTerm]);
 
+    const handleMouseHover = async (content: string) => {
+    console.log("Hovered over:", content);
+    setArticleAIsummary(await getAISummary(content.slice(0, 100)));
+    };
+    
+
   return (
     <div className="bg-neutral-900 min-h-screen mt-4 pl-20 flex gap-10">
         {/* Left Column - Search Results */}
@@ -45,14 +52,14 @@ const Articles = () => {
             <p className="text-gray-400">No results found for search &quot;{searchTerm}&quot;</p>
             )}
             {!articlesLoading && articleResults.map((result, index) => (
-                <div key={index} className="flex flex-col mb-6" onClick={() => setArticleAIsummary(result.summary)}>
+                <div key={index} className="flex flex-col mb-6">
                     <Link href={`/papers?query=${result.title}`} className="text-xl pb-1">
                         {result.title}
                     </Link>
                     <Link href={`/papers?query=${result.author}`} className="text-m pb-1">
                         {result.author}
                     </Link>
-                    <Link href={result.siteLink} className="text-xl text-blue-500 hover:underline break-all pb-1">
+                    <Link href={result.siteLink} className="text-xl text-blue-500 hover:underline pb-1" onMouseEnter={() => handleMouseHover(result.summary)}>
                         {result.siteLink}
                     </Link>
                 </div>
@@ -61,8 +68,10 @@ const Articles = () => {
 
         {/* Right Column - Article Summary */}
         <div className=" border-l border-gray-700 pl-6 w-1/2">
-            <h2 className="text-xl font-semibold text-white">AI Assistant</h2>
-            <p className="text-gray-400">{articleAIsummary}</p>
+            <div className='sticky top-16'>
+                <h2 className="text-xl font-semibold text-white">AI Assistant</h2>
+                <p className="text-gray-400">{articleAIsummary.summary}</p>
+            </div>
         </div>
     </div>
   )

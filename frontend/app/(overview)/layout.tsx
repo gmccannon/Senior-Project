@@ -2,7 +2,7 @@
 
 import MainSearchBar from "@/components/MainSearchBar";
 import { useCallback } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 
 export default function OverLayout({
@@ -16,6 +16,7 @@ export default function OverLayout({
   const searchTerm = searchParams.get("query") || "";
 
   const router = useRouter();
+  const currentTab = usePathname();
 
   // Naviagte to home page
   const handleHomeClick = () => {
@@ -75,23 +76,24 @@ export default function OverLayout({
         </div>
 
         {/* Navigation buttons */}
-        <div className="flex gap-4 pl-20 pb-5">
-          <button className="text-white" onClick={handleSearchClick}>
+        <div className="flex gap-4 pl-24 pb-1">
+          {/* Highlight the current tab */}
+          <button className={`${currentTab === '/search' ? 'text-white underline underline-offset-8 decoration-2' : 'text-gray-500'}`} onClick={handleSearchClick}>
             Nuddle
           </button>
-          <button className="text-white" onClick={handleWebSearchClick}>
+          <button className={`${currentTab === '/websearch' ? 'text-white underline underline-offset-8 decoration-2' : 'text-gray-500'}`} onClick={handleWebSearchClick}>
             Web
           </button>
-          <button className="text-white" onClick={handleArticlesClick}>
+          <button className={`${currentTab === '/papers' ? 'text-white underline underline-offset-8 decoration-2' : 'text-gray-500'}`} onClick={handleArticlesClick}>
             Papers
           </button>
-          <button className="text-white" onClick={handleNewsClick}>
+          <button className={`${currentTab === '/news' ? 'text-white underline underline-offset-8 decoration-2' : 'text-gray-500'}`} onClick={handleNewsClick}>
             News
           </button>
-          <button className="text-white" onClick={handleBooksClick}>
+          <button className={`${currentTab === '/books' ? 'text-white underline underline-offset-8 decoration-2' : 'text-gray-500'}`} onClick={handleBooksClick}>
             Books
           </button>
-          <button className="text-white" onClick={handleFinanceClick}>
+          <button className={`${currentTab === '/finance' ? 'text-white underline underline-offset-8 decoration-2' : 'text-gray-500'}`} onClick={handleFinanceClick}>
             Finance
           </button>
         </div>

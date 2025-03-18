@@ -6,12 +6,11 @@ import { useSearchParams } from "next/navigation";
 import { getBooks, Book } from "@/app/utils/getBooks";
 import Link from "next/link";
 import Image from "next/image";
+import { AISummary, getAISummary } from "@/app/utils/getAISummary";
 
 const booksPage = () => {
   const [booksResults, setbooksResults] = useState<Book[]>([]);
-  const [booksAIsummary, setbooksAIsummary] = useState<string>(
-    "Click a books story to get a summary",
-  );
+  const [booksAIsummary, setbooksAIsummary] = useState<AISummary>({summary : "Hover over an article to get a summary"});
   const [booksLoading, setbooksLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -21,7 +20,7 @@ const booksPage = () => {
 
   // On page load, fetch search books using the search term in the URL
   useEffect(() => {
-    setbooksAIsummary("Click a books story to get a summary");
+    setbooksAIsummary({summary : "Hover over an article to get a summary"});
     setbooksLoading(true);
     setError(null);
 
@@ -36,6 +35,11 @@ const booksPage = () => {
         setbooksLoading(false);
       });
   }, [searchTerm]);
+
+  const handleMouseHover = async (content: string) => {
+  console.log("Hovered over:", content);
+  setbooksAIsummary(await getAISummary(content.slice(0, 200)));
+  };
 
   return (
     <div className="bg-neutral-900 min-h-screen mt-16 pl-48 flex gap-10">
@@ -54,7 +58,7 @@ const booksPage = () => {
             <div
               key={index}
               className="flex space-x-4 mb-16"
-              onClick={() => setbooksAIsummary(result.title)}
+              onMouseEnter={() => handleMouseHover(`the book ${result.title} by ${result.author}`)}
             >
               {/* Thumbnail image */}
               {result.coverLink && (
@@ -82,7 +86,7 @@ const booksPage = () => {
                 </Link>
                 <Link
                   className="pb-1 text-blue-400"
-                  href={`https://www.amazon.com/s?k=${result.title}`}
+                  href={`https://www.amazon.com/s?k=${result.title} book`}
                 >
                   Buy on Amazon
                 </Link>
@@ -92,9 +96,9 @@ const booksPage = () => {
       </div>
 
       {/* Right Column - Article Summary */}
-      <div className=" border-l border-gray-700 pl-6 w-1/2">
+      <div className="border-l border-gray-700 pl-6 w-1/2">
         <h2 className="text-xl font-semibold text-white">AI Assistant</h2>
-        <p className="text-gray-400">{booksAIsummary}</p>
+        <p className="text-gray-400">{booksAIsummary.summary}</p>
       </div>
     </div>
   );
