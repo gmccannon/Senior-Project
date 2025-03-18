@@ -1,7 +1,6 @@
 'use client';
 
 import MainSearchBar from "@/components/MainSearchBar";
-import { useCallback } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 
@@ -52,12 +51,6 @@ export default function OverLayout({
   const handleFinanceClick = () => {
     router.push('/finance' + (searchTerm ? `?query=${encodeURIComponent(searchTerm)}` : ''));
   }
-
-  // Update the search term in the URL when the user searches
-  const handleSearch = useCallback(async (query: string) => {
-    if (!query) return;
-    router.push(`?query=${encodeURIComponent(query)}`, { scroll: false });
-  }, [router]);
     
   return (
     <div>
@@ -71,7 +64,7 @@ export default function OverLayout({
             Nuddle
           </p>
           <div className="flex-grow max-w-xl pl-8">
-            <MainSearchBar onSearch={handleSearch} />
+            <MainSearchBar />
           </div>
         </div>
 
