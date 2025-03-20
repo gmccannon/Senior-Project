@@ -10,7 +10,7 @@ import { AISummary, getAISummary } from "@/app/utils/getAISummary";
 
 const booksPage = () => {
   const [booksResults, setbooksResults] = useState<Book[]>([]);
-  const [booksAIsummary, setbooksAIsummary] = useState<AISummary>({summary : "Hover over an article to get a summary"});
+  const [booksAIsummary, setbooksAIsummary] = useState<AISummary>({summary : "Hover over a book to get a summary"});
   const [booksLoading, setbooksLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -20,7 +20,7 @@ const booksPage = () => {
 
   // On page load, fetch search books using the search term in the URL
   useEffect(() => {
-    setbooksAIsummary({summary : "Hover over an article to get a summary"});
+    setbooksAIsummary({summary : "Hover over a book to get a summary"});
     setbooksLoading(true);
     setError(null);
 
@@ -38,6 +38,7 @@ const booksPage = () => {
 
   const handleMouseHover = async (content: string) => {
   console.log("Hovered over:", content);
+  setbooksAIsummary({summary: "loading..."});
   setbooksAIsummary(await getAISummary(content.slice(0, 200)));
   };
 
@@ -58,7 +59,6 @@ const booksPage = () => {
             <div
               key={index}
               className="flex space-x-4 mb-16"
-              onMouseEnter={() => handleMouseHover(`the book ${result.title} by ${result.author}`)}
             >
               {/* Thumbnail image */}
               {result.coverLink && (
@@ -73,6 +73,7 @@ const booksPage = () => {
               {/* Book info */}
               <div className="flex flex-col align-top">
                 <Link
+                  onMouseEnter={() => handleMouseHover(`the book ${result.title} by ${result.author}`)}
                   className="text-2xl italic pb-1"
                   href={`/books?query=${result.title}`}
                 >
@@ -97,8 +98,10 @@ const booksPage = () => {
 
       {/* Right Column - Article Summary */}
       <div className="border-l border-gray-700 pl-6 w-1/2">
-        <h2 className="text-xl font-semibold text-white">AI Assistant</h2>
-        <p className="text-gray-400">{booksAIsummary.summary}</p>
+        <div className="sticky top-16">
+          <h2 className="text-xl font-semibold text-white">AI Assistant</h2>
+          <p className="text-gray-400">{booksAIsummary.summary}</p>
+        </div>
       </div>
     </div>
   );
