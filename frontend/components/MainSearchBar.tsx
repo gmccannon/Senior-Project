@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { useSearchParams } from "next/navigation";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 const MainSearchBar = () => {
   const [input, setInput] = useState("");
   const searchParams = useSearchParams();
 
   const router = useRouter();
+  const pathname = usePathname();
 
   // Update the input field whenever the URL query changes
   useEffect(() => {
@@ -28,32 +29,36 @@ const MainSearchBar = () => {
     // Handle bang search at the end of the query
     if (query.toLowerCase().endsWith("!gh")) {
       // redirect
-      router.push(`https://github.com/search?q=${encodeURIComponent(query.slice(0, -3))}`)
+      window.location.href = `https://github.com/search?q=${encodeURIComponent(query.slice(0, -3))}`;
       return;
     }
     if (query.toLowerCase().endsWith("!gi")) {
       // redirect
-      router.push(`https://www.google.com/search?tbm=isch&q=${encodeURIComponent(query.slice(0, -3))}`)
+      window.location.href = `https://www.google.com/search?tbm=isch&q=${encodeURIComponent(query.slice(0, -3))}`;
       return;
     }
     if (query.toLowerCase().endsWith("!w")) {
       // redirect
-      router.push(`https://en.wikipedia.org/w/index.php?search=${encodeURIComponent(query.slice(0, -3))}`)
+      window.location.href = `https://en.wikipedia.org/w/index.php?search=${encodeURIComponent(query.slice(0, -3))}`;
       return;
     }
     if (query.toLowerCase().endsWith("!yt")) {
       // redirect
-      router.push(`https://www.youtube.com/results?search_query=${encodeURIComponent(query.slice(0, -3))}`)
+      window.location.href = `https://www.youtube.com/results?search_query=${encodeURIComponent(query.slice(0, -3))}`;
       return;
     }
     if (query.toLowerCase().endsWith("!a")) {
       // redirect
-      router.push(`https://www.amazon.com/s?k=${encodeURIComponent(query.slice(0, -3))}`)
+      window.location.href = `https://www.amazon.com/s?k=${encodeURIComponent(query.slice(0, -3))}`;
       return;
     }
 
-    // Go to search page with query
-    router.push(`search/?query=${encodeURIComponent(query)}`, { scroll: false });
+    // Update the query, if the user is on the home page, default to navigating to the search page, otherwise, stay on the page that they are on
+    if (pathname === '/') {
+      router.push(`search/?query=${encodeURIComponent(query)}`, { scroll: false });
+    } else {
+      router.push(`${pathname}/?query=${encodeURIComponent(query)}`, { scroll: false });
+    }
   };
 
   return (

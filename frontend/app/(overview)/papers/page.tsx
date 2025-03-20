@@ -37,7 +37,7 @@ const Articles = () => {
 
     const handleMouseHover = async (content: string) => {
     console.log("Hovered over:", content);
-    setArticleAIsummary(await getAISummary(content.slice(0, 100)));
+    setArticleAIsummary(await getAISummary(content.slice(0, 400)));
     };
     
 
@@ -59,7 +59,9 @@ const Articles = () => {
                     <Link href={`/papers?query=${result.author}`} className="text-m pb-1">
                         {result.author}
                     </Link>
-                    <Link href={result.siteLink} className="text-xl text-blue-500 hover:underline pb-1" onMouseEnter={() => handleMouseHover(result.summary)}>
+                    <Link href={result.siteLink} 
+                        className="text-xl text-blue-500 hover:underline pb-1" 
+                        onMouseEnter={() => handleMouseHover(`${result.summary}`)}>
                         {result.siteLink}
                     </Link>
                 </div>
