@@ -10,7 +10,7 @@ import { AISummary, getAISummary } from "@/app/utils/getAISummary";
 
 const booksPage = () => {
   const [booksResults, setbooksResults] = useState<Book[]>([]);
-  const [booksAIsummary, setbooksAIsummary] = useState<AISummary>({summary : "Hover over an article to get a summary"});
+  const [booksAIsummary, setbooksAIsummary] = useState<AISummary>({summary : "Hover over a book to get a summary"});
   const [booksLoading, setbooksLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -20,7 +20,7 @@ const booksPage = () => {
 
   // On page load, fetch search books using the search term in the URL
   useEffect(() => {
-    setbooksAIsummary({summary : "Hover over an article to get a summary"});
+    setbooksAIsummary({summary : "Hover over a book to get a summary"});
     setbooksLoading(true);
     setError(null);
 
