@@ -37,9 +37,9 @@ const booksPage = () => {
   }, [searchTerm]);
 
   const handleMouseHover = async (content: string) => {
-  console.log("Hovered over:", content);
-  setbooksAIsummary({summary: "loading..."});
-  setbooksAIsummary(await getAISummary(content.slice(0, 200)));
+    console.log("Hovered over:", content);
+    setbooksAIsummary({summary: "loading..."});
+    setbooksAIsummary(await getAISummary(content.slice(0, 200)));
   };
 
   return (
@@ -97,7 +97,7 @@ const booksPage = () => {
       </div>
 
       {/* Right Column - Article Summary */}
-      <div className="border-l border-gray-700 pl-6 w-1/2">
+      <div className="border-l border-gray-700 pl-16 pr-16 w-1/2">
         <div className="sticky top-16">
           <h2 className="text-xl font-semibold text-white">AI Assistant</h2>
           <p className="text-gray-400">{booksAIsummary.summary}</p>
