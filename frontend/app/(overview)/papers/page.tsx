@@ -53,16 +53,12 @@ const Articles = () => {
             )}
             {!articlesLoading && articleResults.map((result, index) => (
                 <div key={index} className="flex flex-col mb-6">
-                    <Link href={`/papers?query=${result.title}`} className="text-xl pb-1">
+                    <Link href={result.siteLink} className="text-xl pb-1 text-blue-500"
+                        onMouseEnter={() => handleMouseHover(`${result.summary}`)}>
                         {result.title}
                     </Link>
                     <Link href={`/papers?query=${result.author}`} className="text-m pb-1">
                         {result.author}
-                    </Link>
-                    <Link href={result.siteLink} 
-                        className="text-xl text-blue-500 hover:underline pb-1" 
-                        onMouseEnter={() => handleMouseHover(`${result.summary}`)}>
-                        {result.siteLink}
                     </Link>
                 </div>
             ))}
