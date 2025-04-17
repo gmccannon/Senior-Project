@@ -40,7 +40,6 @@ const Articles = () => {
     setArticleAIsummary(await getAISummary(content.slice(0, 400)));
     };
     
-
   return (
     <div className="bg-neutral-900 min-h-screen mt-4 pl-20 flex gap-10">
         {/* Left Column - Search Results */}
