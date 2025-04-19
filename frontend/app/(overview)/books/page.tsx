@@ -40,7 +40,7 @@ const BooksPage = () => {
   };
 
   return (
-    <div className="bg-neutral-900 min-h-screen mt-16 flex flex-col md:flex-row gap-10 px-4 md:px-0 md:pl-48 pb-24 md:pb-0">
+    <div className="bg-neutral-900 min-h-screen mt-16 flex flex-col md:flex-row gap-10 px-0 md:px-0 md:pl-32 pb-24 md:pb-0">
       {/* Left Column */}
       <div className="w-full md:w-1/2">
         {booksLoading && <p className="text-white">Loading books...</p>}
@@ -116,7 +116,7 @@ const BooksPage = () => {
           md:static md:inset-auto md:bottom-auto
           md:w-1/2
           md:border-t-0 md:border-l
-          md:pt-0 md:px-16
+          md:pt-0 md:px-12
           md:h-auto
         `}
       >
