@@ -51,6 +51,10 @@ export default function OverLayout({
   const handleFinanceClick = () => {
     router.push('/finance' + (searchTerm ? `?query=${encodeURIComponent(searchTerm)}` : ''));
   }
+
+  const handleWisdomClick = () => {
+    router.push('/wisdom' + (searchTerm ? `?query=${encodeURIComponent(searchTerm)}` : ''));
+  }
     
   return (
     <div>
@@ -86,8 +90,11 @@ export default function OverLayout({
           <button className={`${currentTab === '/books' ? 'text-white underline underline-offset-8 decoration-2' : 'text-gray-500'}`} onClick={handleBooksClick}>
             Books
           </button>
-          <button className={`${currentTab === '/finance' ? 'text-white underline underline-offset-8 decoration-2' : 'text-gray-500'}`} onClick={handleFinanceClick}>
+          {/* <button className={`${currentTab === '/finance' ? 'text-white underline underline-offset-8 decoration-2' : 'text-gray-500'}`} onClick={handleFinanceClick}>
             Finance
+          </button> */}
+          <button className={`${currentTab === '/wisdom' ? 'text-white underline underline-offset-8 decoration-2' : 'text-gray-500'}`} onClick={handleWisdomClick}>
+            Wisdom
           </button>
         </div>
 
