@@ -156,7 +156,6 @@ export default function OverLayout({
       {/* Content */}
       <div className="flex flex-col md:flex-row gap-4 md:gap-10 p-4">
         <div className="w-full">{children}</div>
-
       </div>
     </div>
   );
