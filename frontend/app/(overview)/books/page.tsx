@@ -1,79 +1,74 @@
 "use client";
 
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { getBooks, Book } from "@/app/utils/getBooks";
 import Link from "next/link";
 import Image from "next/image";
 import { AISummary, getAISummary } from "@/app/utils/getAISummary";
 
-const booksPage = () => {
-  const [booksResults, setbooksResults] = useState<Book[]>([]);
-  const [booksAIsummary, setbooksAIsummary] = useState<AISummary>({summary : "Hover over a book to get a summary"});
-  const [booksLoading, setbooksLoading] = useState(false);
+const BooksPage = () => {
+  const [booksResults, setBooksResults] = useState<Book[]>([]);
+  const [booksAIsummary, setBooksAIsummary] = useState<AISummary>({
+    summary: "Hover over a book to get a summary",
+  });
+  const [booksLoading, setBooksLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Get the seach term from the URL
   const searchParams = useSearchParams();
   const searchTerm = searchParams.get("query") || "";
 
-  // On page load, fetch search books using the search term in the URL
   useEffect(() => {
-    setbooksAIsummary({summary : "Hover over a book to get a summary"});
-    setbooksLoading(true);
+    setBooksAIsummary({ summary: "Hover over a book to get a summary" });
+    setBooksLoading(true);
     setError(null);
 
-    // Fetch search results independently
     getBooks(searchTerm)
       .then((data) => {
-        setbooksResults(data);
-        setbooksLoading(false);
+        setBooksResults(data);
+        setBooksLoading(false);
       })
       .catch(() => {
         setError("Failed to fetch books");
-        setbooksLoading(false);
+        setBooksLoading(false);
       });
   }, [searchTerm]);
 
   const handleMouseHover = async (content: string) => {
-    console.log("Hovered over:", content);
-    setbooksAIsummary({summary: "loading..."});
-    setbooksAIsummary(await getAISummary(content.slice(0, 200)));
+    setBooksAIsummary({ summary: "loading..." });
+    setBooksAIsummary(await getAISummary(content.slice(0, 200)));
   };
 
   return (
-    <div className="bg-neutral-900 min-h-screen mt-16 pl-48 flex gap-10">
-      {/* Left Column - Search Results */}
-      {/* TODO: Add pagination */}
-      <div className="w-1/2">
+    <div className="bg-neutral-900 min-h-screen mt-16 flex flex-col md:flex-row gap-10 px-4 md:px-0 md:pl-48 pb-24 md:pb-0">
+      {/* Left Column */}
+      <div className="w-full md:w-1/2">
         {booksLoading && <p className="text-white">Loading books...</p>}
         {error && <p className="text-red-500">{error}</p>}
         {!booksLoading && !error && booksResults.length === 0 && searchTerm && (
           <p className="text-gray-400">
-            No results found for search &quot;{searchTerm}&quot;
+            No results found for search “{searchTerm}”
           </p>
         )}
         {!booksLoading &&
-          booksResults.map((result, index) => (
-            <div
-              key={index}
-              className="flex space-x-4 mb-16"
-            >
-              {/* Thumbnail image */}
+          booksResults.map((result, idx) => (
+            <div key={idx} className="flex space-x-4 mb-16">
               {result.coverLink && (
                 <Image
                   src={`https://covers.openlibrary.org/b/olid/${result.coverLink}-L.jpg`}
-                  alt={`cover loading...`}
+                  alt={`${result.title} cover`}
                   height={640}
                   width={480}
-                  className="h-64 w-48 object-cover rounded-md align-right"
+                  className="h-64 w-48 object-cover rounded-md"
                 />
               )}
-              {/* Book info */}
-              <div className="flex flex-col align-top">
+              <div className="flex flex-col">
                 <Link
-                  onMouseEnter={() => handleMouseHover(`the book ${result.title} by ${result.author}`)}
+                  onMouseEnter={() =>
+                    handleMouseHover(
+                      `the book ${result.title} by ${result.author}`
+                    )
+                  }
                   className="text-2xl italic pb-1"
                   href={`/books?query=${result.title}`}
                 >
@@ -96,15 +91,28 @@ const booksPage = () => {
           ))}
       </div>
 
-      {/* Right Column - Article Summary */}
-      <div className="border-l border-gray-700 pl-16 pr-16 w-1/2">
-        <div className="sticky top-16">
+      {/* AI Summary – fixed on mobile, sticky on md+ */}
+      <div
+        className={`
+          fixed inset-x-0 bottom-0 h-24
+          bg-neutral-900
+          border-t border-gray-700
+          px-4
+          z-50
+
+          md:static md:inset-auto md:bottom-auto
+          md:w-1/2
+          md:border-t-0 md:border-l
+          md:pt-0 md:px-16
+          md:h-auto
+        `}
+      >
+        <div className="overflow-y-auto h-full md:overflow-visible md:h-auto md:sticky md:top-16">
           <h2 className="text-xl font-semibold text-white">AI Assistant</h2>
           <p className="text-gray-400">{booksAIsummary.summary}</p>
         </div>
       </div>
     </div>
   );
-};
-
-export default booksPage; 
+}
+export default BooksPage;
