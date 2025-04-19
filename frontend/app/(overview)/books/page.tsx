@@ -52,41 +52,54 @@ const BooksPage = () => {
         )}
         {!booksLoading &&
           booksResults.map((result, idx) => (
-            <div key={idx} className="flex space-x-4 mb-16">
-              {result.coverLink && (
-                <Image
-                  src={`https://covers.openlibrary.org/b/olid/${result.coverLink}-L.jpg`}
-                  alt={`${result.title} cover`}
-                  height={640}
-                  width={480}
-                  className="h-64 w-48 object-cover rounded-md"
-                />
-              )}
-              <div className="flex flex-col">
-                <Link
-                  onMouseEnter={() =>
-                    handleMouseHover(
-                      `the book ${result.title} by ${result.author}`
-                    )
-                  }
-                  className="text-2xl italic pb-1"
-                  href={`/books?query=${result.title}`}
-                >
-                  {result.title}
-                </Link>
-                <Link
-                  className="text-xl pb-1"
-                  href={`/books?query=${result.author}`}
-                >
-                  {result.author}
-                </Link>
-                <Link
-                  className="pb-1 text-blue-400"
-                  href={`https://www.amazon.com/s?k=${result.title} book`}
-                >
-                  Buy on Amazon
-                </Link>
+            <div key={idx} className="flex flex-col space-y-4 mb-16">
+              <div className="flex space-x-4">
+                {result.coverLink && (
+                  <Image
+                    src={`https://covers.openlibrary.org/b/olid/${result.coverLink}-L.jpg`}
+                    alt={`${result.title} cover`}
+                    height={640}
+                    width={480}
+                    className="h-64 w-48 object-cover rounded-md"
+                  />
+                )}
+                <div className="flex flex-col">
+                  <Link
+                    onMouseEnter={() =>
+                      handleMouseHover(
+                        `the book ${result.title} by ${result.author}`
+                      )
+                    }
+                    className="text-2xl italic pb-1"
+                    href={`/books?query=${result.title}`}
+                  >
+                    {result.title}
+                  </Link>
+                  <Link
+                    className="text-xl pb-1"
+                    href={`/books?query=${result.author}`}
+                  >
+                    {result.author}
+                  </Link>
+                  <Link
+                    className="pb-1 text-blue-400"
+                    href={`https://www.amazon.com/s?k=${result.title} book`}
+                  >
+                    Buy on Amazon
+                  </Link>
+                </div>
               </div>
+              {/* Mobile-only AI Summary Button */}
+              <button
+                className="block md:hidden bg-blue-500 text-white px-4 py-2 rounded-md"
+                onClick={() =>
+                  handleMouseHover(
+                    `the book ${result.title} by ${result.author}`
+                  )
+                }
+              >
+                Get AI Summary
+              </button>
             </div>
           ))}
       </div>
@@ -114,5 +127,5 @@ const BooksPage = () => {
       </div>
     </div>
   );
-}
+};
 export default BooksPage;
