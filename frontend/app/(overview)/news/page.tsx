@@ -56,8 +56,12 @@ const NewsPage = () => {
         )}
         {!newsLoading &&
           newsResults.map((result, index) => (
-            <div key={index} className="flex flex-col space-y-4 mb-16">
-              <div className="flex justify-between space-x-4">
+                <div
+                  key={index}
+                  className="flex flex-col space-y-4 mb-16"
+                  onMouseEnter={() => handleMouseHover(result.summary)}
+                >
+                  <div className="flex justify-between space-x-4">
                 <div className="p-3">
                   <Link
                     href={result.link}
