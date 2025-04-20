@@ -74,7 +74,11 @@ const Search = () => {
         )}
         {!searchLoading &&
           searchResults.map((result, index) => (
-            <div key={index} className="flex flex-col space-y-4 mb-16">
+            <div
+              key={index}
+              className="flex flex-col space-y-4 mb-16"
+              onMouseEnter={() => handleMouseHover(result)} // <-- Add this line
+            >
               <div className="flex justify-between space-x-4">
                 <div>
                   <Link
