@@ -1,4 +1,4 @@
-# Nudle - A Search Engine
+# Nuddle - A Search Engine
 
 ## Table of Contents
 
